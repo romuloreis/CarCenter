@@ -11053,19 +11053,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\romulo\\.nuget\\packages\\": {}
+    "C:\\Users\\rroliveira\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\repos3\\CarCenter\\CarCenter.csproj",
+      "projectUniqueName": "C:\\Users\\rroliveira\\Source\\Repos\\CarCenterReview\\CarCenter\\CarCenter.csproj",
       "projectName": "CarCenter",
-      "projectPath": "E:\\repos3\\CarCenter\\CarCenter.csproj",
-      "packagesPath": "C:\\Users\\romulo\\.nuget\\packages\\",
-      "outputPath": "E:\\repos3\\CarCenter\\obj\\",
+      "projectPath": "C:\\Users\\rroliveira\\Source\\Repos\\CarCenterReview\\CarCenter\\CarCenter.csproj",
+      "packagesPath": "C:\\Users\\rroliveira\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\rroliveira\\Source\\Repos\\CarCenterReview\\CarCenter\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\romulo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\rroliveira\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -11129,7 +11129,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
       }
     }
   }

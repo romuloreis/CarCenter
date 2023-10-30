@@ -11,11 +11,11 @@ using CarCenter.Models.ViewModels;
 
 namespace CarCenter.Controllers
 {
-    public class NotasController : Controller
+    public class NotasbkController : Controller
     {
         private readonly CarCenterContext _context;
 
-        public NotasController(CarCenterContext context)
+        public NotasbkController(CarCenterContext context)
         {
             _context = context;
         }
@@ -23,8 +23,9 @@ namespace CarCenter.Controllers
         // GET: Notas
         public async Task<IActionResult> Index()
         {
-            var carCenterContext = _context.Nota.Include(n => n.Carro).Include(n => n.Comprador).Include(n => n.Vendedor);
-            return View(await carCenterContext.ToListAsync());
+              return _context.Nota != null ? 
+                          View(await _context.Nota.ToListAsync()) :
+                          Problem("Entity set 'CarCenterContext.Nota'  is null.");
         }
 
         // GET: Notas/Details/5
@@ -36,9 +37,6 @@ namespace CarCenter.Controllers
             }
 
             var nota = await _context.Nota
-                .Include(n => n.Carro)
-                .Include(n => n.Comprador)
-                .Include(n => n.Vendedor)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (nota == null)
             {
@@ -51,9 +49,6 @@ namespace CarCenter.Controllers
         // GET: Notas/Create
         public IActionResult Create()
         {
-            //ViewData["CarroId"] = new SelectList(_context.Carro, "Id", "Id");
-            // ViewData["ClienteId"] = new SelectList(_context.Cliente, "Id", "Id");
-            //ViewData["VendedorId"] = new SelectList(_context.Vendedor, "Id", "Id");
             NotaViewModel notaViewModel = new NotaViewModel();
             notaViewModel.Carros = _context.Carro.ToList();
             notaViewModel.Clientes = _context.Cliente.ToList();
@@ -65,11 +60,12 @@ namespace CarCenter.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public async Task<IActionResult> Create(NotaViewModel notaVM)
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(NotaViewModel notaViewModel)
         {
-
-            _context.Add(notaVM.Nota);
-            await _context.SaveChangesAsync();
+            
+            _context.Add(notaViewModel.Nota);
+            _context.SaveChanges();
             return RedirectToAction(nameof(Index));
 
         }
@@ -87,12 +83,7 @@ namespace CarCenter.Controllers
             {
                 return NotFound();
             }
-            NotaViewModel notaViewModel = new NotaViewModel();
-            notaViewModel.Carros = _context.Carro.ToList();
-            notaViewModel.Clientes = _context.Cliente.ToList();
-            notaViewModel.Vendedores = _context.Vendedor.ToList();
-            notaViewModel.Nota = nota;
-            return View(notaViewModel);
+            return View(nota);
         }
 
         // POST: Notas/Edit/5
@@ -100,14 +91,16 @@ namespace CarCenter.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Nota nota)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Numero,DataEmissao,Garantia,ValorVenda,IdCliente,IdVendedor,IdCarro")] Nota nota)
         {
             if (id != nota.Id)
             {
                 return NotFound();
             }
 
-            try
+            if (ModelState.IsValid)
+            {
+                try
                 {
                     _context.Update(nota);
                     await _context.SaveChangesAsync();
@@ -124,7 +117,8 @@ namespace CarCenter.Controllers
                     }
                 }
                 return RedirectToAction(nameof(Index));
-
+            }
+            return View(nota);
         }
 
         // GET: Notas/Delete/5
@@ -136,9 +130,6 @@ namespace CarCenter.Controllers
             }
 
             var nota = await _context.Nota
-                .Include(n => n.Carro)
-                .Include(n => n.Comprador)
-                .Include(n => n.Vendedor)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (nota == null)
             {
